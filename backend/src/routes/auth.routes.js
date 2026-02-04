@@ -1,16 +1,16 @@
 import express from "express";
-// import { login, logout, signup } from "../controller/auth.controller.js";
+import { registerUser } from "../controllers/auth.controller.js";
+import { body } from "express-validator";
 // import authMiddleware from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-// router.post("/signup", signup);
-// router.post("/login", login);
-// // router.post("/logout", logout);
+router.post("/register", [
+    body('email').isEmail().withMessage('Invalid Email'),
+    body('fullname.firstName').isLength({ min: 3 }).withMessage("FirstName must be min of 3 character"),
+    body('password').isLength({ min: 6 }).withMessage("write a long password")
 
-// Return current user if authenticated
-// router.get("/me", authMiddleware, (req, res) => {
-//   res.status(200).json(req.user);
-// });
+], registerUser);
+
 
 export default router;

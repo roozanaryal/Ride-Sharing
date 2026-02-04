@@ -12,7 +12,7 @@ const connectDB = async () => {
     // }
 
     const conn = await mongoose.connect(
-      process.env.MONGO_DB_URI || "mongodb://localhost:27017/twitter",
+      process.env.MONGODB_URI || "mongodb://localhost:27017/uber",
       {
         serverSelectionTimeoutMS: 5000, // Timeout after 5s instead of 10s
         socketTimeoutMS: 45000, // Close sockets after 45 seconds of inactivity
