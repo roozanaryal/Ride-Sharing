@@ -21,7 +21,7 @@ router.post(
   "/login",
   [
     body("email").isEmail().withMessage("Invalid Email format"),
-    body("password").minLength({ min: 6 }).withMessage("write a long password"),
+    body("password").isLength({ min: 6 }).withMessage("write a long password"),
   ],
   loginUser,
 );

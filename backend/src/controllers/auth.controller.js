@@ -24,25 +24,32 @@ export const registerUser = async (req, res, next) => {
 };
 
 export const loginUser = async (req, res, next) => {
-  const error = validationResult(req);
-  if (!error.isEmpty()) {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
     return res.status(400).json({
-      error: error.array(),
+      errors: errors.array(),
     });
-
-  }
-  const {email,password}=req.body;
-
-  const user = await userModel.findOne({email}).select('+password')
-  if(!user){
-    return res.status(401).json({message:"Invalid email or password"})
-  }
-  const isMatched = await bcrypt.compare(password, user.password)
-  if(!isMatched){
-    return res.status(401).json({message:"Invalid email or password"})
-
   }
 
-  const token = await user.generateAuthToken()
-  
+  const { email, password } = req.body;
+
+  const user = await userModel.findOne({ email }).select("+password");
+  if (!user) {
+    return res.status(401).json({ message: "Invalid email or password" });
+  }
+
+  const isMatched = await user.comparePassword(password);
+  if (!isMatched) {
+    return res.status(401).json({ message: "Invalid email or password" });
+  }
+
+  const token = user.generateAuthToken();
+
+  // 🔐 remove password before sending
+  user.password = undefined;
+
+  return res.status(200).json({ user, token });
 };
+
+ 
+
