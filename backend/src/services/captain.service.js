@@ -1,3 +1,5 @@
+import captainModel from "../models/captain.model.js";
+
 export const createCaptain = async ({
   email,
   password,
@@ -27,7 +29,7 @@ export const createCaptain = async ({
     email,
     password,
     phoneNumber,
-    vehicle: { 
+    vehicle: {
       colour: colour,
       plate: plate,
       vehicleType: vehicleType,
@@ -37,7 +39,7 @@ export const createCaptain = async ({
 };
 
 export const getCaptainByEmail = async (email) => {
-  return await captainModel .findOne({ email }).select("+password");
+  return await captainModel.findOne({ email }).select("+password");
 };
 
 export const getCaptainById = async (id) => {
