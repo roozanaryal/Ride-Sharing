@@ -51,5 +51,26 @@ export const loginUser = async (req, res, next) => {
   return res.status(200).json({ user, token });
 };
 
- 
+// export const getUserProfile = async (req, res, next) => {
+//   try {
+//     const user = await userModel.findById(req.user._id)
+//     if (!user) {
+//       return res.status(404).json({ message: "User not found" });
+//     }
+//     res.json(user);
+//   } catch (error) {
+//     next(error);
+//   }
+// };
 
+export const logoutUser = (req, res) => {
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: true,
+    sameSite: "strict",
+  });
+
+  return res.status(200).json({
+    message: "Logged out successfully",
+  });
+};
