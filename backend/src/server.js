@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import authRoutes from "./routes/auth.routes.js";
+import authRoutes from "./routes/captain.routes.js";
 import connectDB from "./db/connectDB.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
@@ -36,6 +37,7 @@ app.use(cookieParser());
 
 // Routes
 app.use("/api/auth", authRoutes);
+app.use("/api/captain", captainRoutes);
 
 // Health check endpoint
 app.get("/health", (req, res) => {
