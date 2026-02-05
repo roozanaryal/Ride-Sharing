@@ -1,4 +1,6 @@
 import mongoose, { Types } from "mongoose";
+import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
 
 const captainSchema = new mongoose.Schema({
   fullname: {
@@ -14,7 +16,6 @@ const captainSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    inactive,
     required: true,
     unique: true,
   },
@@ -57,7 +58,7 @@ const captainSchema = new mongoose.Schema({
 });
 
 captainSchema.methods.generateAuthToken = function () {
-    const token = jwt.sign({ _id: this._id }, process.env.JWT_SECRET, {
+  const token = jwt.sign({ _id: this._id }, process.env.JWT_SECRET, {
     expiresIn: "10h",
   });
   return token;

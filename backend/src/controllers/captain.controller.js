@@ -1,5 +1,9 @@
+import { validationResult } from "express-validator";
 import captainModel from "../models/captain.model.js";
-import captainService from "../services/captain.service.js";
+import {
+  createCaptain,
+  getCaptainByEmail,
+} from "../services/captain.service.js";
 
 export const registerCaptain = async (req, res) => {
   try {
@@ -10,12 +14,12 @@ export const registerCaptain = async (req, res) => {
 
     const { email, password, fullname, phoneNumber, vehicle } = req.body;
 
-    const emailExists = await captainService.getCaptainByEmail(email);
+    const emailExists = await getCaptainByEmail(email);
     if (emailExists) {
       return res.status(400).json({ message: "Email already exists" });
     }
     const hashPassword = await captainModel.hashPassword(password);
-    const captain = await captainService.registerCaptain({
+    const captain = await createCaptain({
       email,
       password: hashPassword,
       firstName: fullname.firstName,
@@ -41,7 +45,7 @@ export const loginCaptain = async (req, res) => {
       return res.status(400).json({ errors: errors.array() });
     }
     const { email, password } = req.body;
-    const captain = await captainService.getCaptainByEmail(email);
+    const captain = await getCaptainByEmail(email);
     if (!captain) {
       return res.status(400).json({ message: "Invalid email or password" });
     }
