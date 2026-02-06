@@ -65,6 +65,6 @@ export interface SignupCaptainResponse {
       colour: string;
       vehicleType: string;
     };
-    token: string;
   };
+  token: string;
 }

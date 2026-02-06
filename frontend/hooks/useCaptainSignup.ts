@@ -1,25 +1,26 @@
 import apiClient from "@/api/apiClient";
-import { LoginData, SignupCaptainResponse } from "@/types/auth";
+import { SignupCaptainData, SignupCaptainResponse } from "@/types/auth";
 import { useMutation } from "@tanstack/react-query";
+import { error } from "console";
 
-const loginCaptain = async (
-  data: LoginData,
+const captainSignup = async (
+  data: SignupCaptainData,
 ): Promise<SignupCaptainResponse> => {
   const response = await apiClient.post<SignupCaptainResponse>(
-    "/captain/login",
+    "captain/register",
     data,
   );
   return response.data;
 };
 
-export const useCaptainLogin = () => {
+export const useCaptainSignup = () => {
   return useMutation({
-    mutationFn: loginCaptain,
+    mutationFn: captainSignup,
     onSuccess: (data) => {
       localStorage.setItem("token", data.token);
     },
     onError: (error) => {
-      console.error("Captain Login Error:", error);
+      console.error("Error:", error);
     },
   });
 };
