@@ -18,6 +18,13 @@ export const registerCaptain = async (req, res) => {
     if (emailExists) {
       return res.status(400).json({ message: "Email already exists" });
     }
+
+    // Check if phone number already exists
+    const phoneExists = await captainModel.findOne({ phoneNumber });
+    if (phoneExists) {
+      return res.status(400).json({ message: "Phone number already exists" });
+    }
+
     const hashPassword = await captainModel.hashPassword(password);
     const captain = await createCaptain({
       email,
@@ -31,10 +38,14 @@ export const registerCaptain = async (req, res) => {
     });
 
     const token = captain.generateAuthToken();
-    captain.password = undefined; // Hide password in response
+    captain.password = undefined; 
     res.status(201).json({ token, captain });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error("Captain Registration Error:", error);
+    if (error.message === "All fields are required") {
+      return res.status(400).json({ message: error.message });
+    }
+    res.status(500).json({ message: "Internal Server Error", error: error.message });
   }
 };
 

@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useUserSignup } from '@/hooks/useUserSignup';
+import { useCaptainSignup } from '@/hooks/useCaptainSignup';
 
 const SignupPage = () => {
   const [userType, setUserType] = useState<'user' | 'rider'>('user');
@@ -11,28 +12,51 @@ const SignupPage = () => {
     lastName: '',
     email: '',
     password: '',
+    phoneNumber: '',
+    vehicleType: 'bike',
+    plate: '',
+    colour: '',
   });
 
-  const { mutate, isPending, isError, error } = useUserSignup();
+  const { mutate: signupUser, isPending: isUserPending, isError: isUserError, error: userError } = useUserSignup();
+  const { mutate: signupCaptain, isPending: isCaptainPending, isError: isCaptainError, error: captainError } = useCaptainSignup();
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const isPending = isUserPending || isCaptainPending;
+  const isError = isUserError || isCaptainError;
+  const error = userError || captainError;
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    // To address your concern: explicitly creating the nested fullname object
+    const fullname = {
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+    };
+
     if (userType === 'user') {
-      mutate({
-        fullname: {
-          firstName: formData.firstName,
-          lastName: formData.lastName,
-        },
+      signupUser({
+        fullname,
         email: formData.email,
         password: formData.password,
       });
     } else {
-      console.log('Rider registration not implemented yet');
+      signupCaptain({
+        fullname,
+        email: formData.email,
+        password: formData.password,
+        phoneNumber: formData.phoneNumber,
+        vehicle: {
+          plate: formData.plate,
+          colour: formData.colour,
+          vehicleType: formData.vehicleType,
+        }
+      });
     }
   };
 
@@ -141,7 +165,11 @@ const SignupPage = () => {
                       </label>
                       <input
                         type="tel"
+                        name="phoneNumber"
+                        value={formData.phoneNumber}
+                        onChange={handleInputChange}
                         placeholder="+1 234 567 890"
+                        required
                         className="w-full bg-neutral-800 border border-neutral-700 text-white px-4 py-2.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500/50 transition-all placeholder:text-neutral-600 text-sm"
                       />
                     </div>
@@ -149,7 +177,12 @@ const SignupPage = () => {
                       <label className="text-[10px] font-bold text-neutral-500 uppercase tracking-widest ml-1">
                         Vehicle Type
                       </label>
-                      <select className="w-full bg-neutral-800 border border-neutral-700 text-white px-4 py-2.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500/50 transition-all text-sm appearance-none">
+                      <select 
+                        name="vehicleType"
+                        value={formData.vehicleType}
+                        onChange={handleInputChange}
+                        className="w-full bg-neutral-800 border border-neutral-700 text-white px-4 py-2.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500/50 transition-all text-sm appearance-none"
+                      >
                         <option value="bike">Bike</option>
                         <option value="car">Car</option>
                         <option value="scooter">Scooter</option>
@@ -161,7 +194,11 @@ const SignupPage = () => {
                       </label>
                       <input
                         type="text"
+                        name="plate"
+                        value={formData.plate}
+                        onChange={handleInputChange}
                         placeholder="ABC-1234"
+                        required
                         className="w-full bg-neutral-800 border border-neutral-700 text-white px-4 py-2.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500/50 transition-all placeholder:text-neutral-600 text-sm"
                       />
                     </div>
@@ -171,7 +208,11 @@ const SignupPage = () => {
                       </label>
                       <input
                         type="text"
+                        name="colour"
+                        value={formData.colour}
+                        onChange={handleInputChange}
                         placeholder="Black"
+                        required
                         className="w-full bg-neutral-800 border border-neutral-700 text-white px-4 py-2.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500/50 transition-all placeholder:text-neutral-600 text-sm"
                       />
                     </div>
@@ -195,9 +236,17 @@ const SignupPage = () => {
               </div>
 
               {isError && (
-                <p className="text-red-500 text-xs mt-1">
-                  {(error as any)?.response?.data?.message || 'Something went wrong. Please try again.'}
-                </p>
+                <div className="text-red-500 text-[10px] mt-1 space-y-1">
+                  {(error as any)?.response?.data?.message && (
+                    <p>{(error as any).response.data.message}</p>
+                  )}
+                  {(error as any)?.response?.data?.errors?.map((err: any, index: number) => (
+                    <p key={index}>• {err.msg || err.message}</p>
+                  ))}
+                  {!(error as any)?.response?.data?.message && !(error as any)?.response?.data?.errors && (
+                    <p>Something went wrong. Please try again.</p>
+                  )}
+                </div>
               )}
 
               <button

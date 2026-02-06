@@ -12,7 +12,7 @@ export interface SignupResponse {
     _id: string;
     fullname: {
       firstName: string;
-      lastName: string;
+      lastName?: string;
     };
     email: string;
   };
