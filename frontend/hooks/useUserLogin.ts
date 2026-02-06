@@ -2,8 +2,7 @@ import apiClient from "@/api/apiClient";
 import { LoginData, LoginResponse, ApiError } from "@/types/auth";
 import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import { useRouter } from "next/navigation"; // ✅ use this in App Router
-
+import { useRouter } from "next/navigation";
 const loginUser = async (data: LoginData): Promise<LoginResponse> => {
   const response = await apiClient.post<LoginResponse>("auth/login", data);
   return response.data;
