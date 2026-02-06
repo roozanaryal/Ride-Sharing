@@ -2,9 +2,39 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { useUserSignup } from '@/hooks/useUserSignup';
 
 const SignupPage = () => {
   const [userType, setUserType] = useState<'user' | 'rider'>('user');
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+  });
+
+  const { mutate, isPending, isError, error } = useUserSignup();
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (userType === 'user') {
+      mutate({
+        fullname: {
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+        },
+        email: formData.email,
+        password: formData.password,
+      });
+    } else {
+      console.log('Rider registration not implemented yet');
+    }
+  };
 
   return (
     <div className="h-screen bg-neutral-950 flex items-center justify-center p-4 relative overflow-hidden">
@@ -55,7 +85,7 @@ const SignupPage = () => {
 
           {/* Scrollable Form Area */}
           <div className="overflow-y-auto custom-scrollbar px-8 pb-4">
-            <form className="flex flex-col gap-3">
+            <form onSubmit={handleSubmit} className="flex flex-col gap-3">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {/* Common Fields */}
                 <div className="space-y-1">
@@ -64,7 +94,11 @@ const SignupPage = () => {
                   </label>
                   <input
                     type="text"
+                    name="firstName"
+                    value={formData.firstName}
+                    onChange={handleInputChange}
                     placeholder="John"
+                    required
                     className="w-full bg-neutral-800 border border-neutral-700 text-white px-4 py-2.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500/50 transition-all placeholder:text-neutral-600 text-sm"
                   />
                 </div>
@@ -74,7 +108,11 @@ const SignupPage = () => {
                   </label>
                   <input
                     type="text"
+                    name="lastName"
+                    value={formData.lastName}
+                    onChange={handleInputChange}
                     placeholder="Doe"
+                    required
                     className="w-full bg-neutral-800 border border-neutral-700 text-white px-4 py-2.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500/50 transition-all placeholder:text-neutral-600 text-sm"
                   />
                 </div>
@@ -85,7 +123,11 @@ const SignupPage = () => {
                   </label>
                   <input
                     type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
                     placeholder="john@example.com"
+                    required
                     className="w-full bg-neutral-800 border border-neutral-700 text-white px-4 py-2.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500/50 transition-all placeholder:text-neutral-600 text-sm"
                   />
                 </div>
@@ -142,14 +184,28 @@ const SignupPage = () => {
                   </label>
                   <input
                     type="password"
+                    name="password"
+                    value={formData.password}
+                    onChange={handleInputChange}
                     placeholder="••••••••"
+                    required
                     className="w-full bg-neutral-800 border border-neutral-700 text-white px-4 py-2.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500/50 transition-all placeholder:text-neutral-600 text-sm"
                   />
                 </div>
               </div>
 
-              <button type="button" className="w-full bg-amber-500 hover:bg-amber-400 text-neutral-950 font-bold py-3.5 rounded-xl transition-all active:scale-[0.98] mt-2 shadow-lg shadow-amber-500/20 text-sm">
-                Create {userType === 'user' ? 'Passenger' : 'Captain'} Account
+              {isError && (
+                <p className="text-red-500 text-xs mt-1">
+                  {(error as any)?.response?.data?.message || 'Something went wrong. Please try again.'}
+                </p>
+              )}
+
+              <button
+                type="submit"
+                disabled={isPending}
+                className="w-full bg-amber-500 hover:bg-amber-400 text-neutral-950 font-bold py-3.5 rounded-xl transition-all active:scale-[0.98] mt-2 shadow-lg shadow-amber-500/20 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isPending ? 'Creating Account...' : `Create ${userType === 'user' ? 'Passenger' : 'Captain'} Account`}
               </button>
             </form>
           </div>
