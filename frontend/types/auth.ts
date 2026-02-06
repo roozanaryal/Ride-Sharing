@@ -1,7 +1,7 @@
 export interface SignupData {
   fullname: {
     firstName: string;
-    lastName: string;
+    lastName?: string;
   };
   email: string;
   password: string;
@@ -29,7 +29,7 @@ export interface LoginResponse {
     _id: string;
     fullname: {
       firstName: string;
-      lastName: string;
+      lastName?: string;
     };
     email: string;
   };
@@ -39,7 +39,7 @@ export interface LoginResponse {
 export interface SignupCaptainData {
   fullname: {
     firstName: string;
-    lastName: string;
+    lastName?: string;
   };
   email: string;
   password: string;
@@ -56,7 +56,7 @@ export interface SignupCaptainResponse {
     _id: string;
     fullname: {
       firstName: string;
-      lastName: string;
+      lastName?: string;
     };
     email: string;
     phoneNumber: string;

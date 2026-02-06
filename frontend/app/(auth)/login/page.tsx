@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import Link from 'next/link';
+import React, { useState } from "react";
+import Link from "next/link";
 
 const LoginPage = () => {
-  const [userType, setUserType] = useState<'user' | 'rider'>('user');
+  const [userType, setUserType] = useState<"user" | "rider">("user");
 
   return (
     <div className="h-screen bg-neutral-950 flex items-center justify-center p-4 relative overflow-hidden">
@@ -17,11 +17,13 @@ const LoginPage = () => {
       <div className="w-full max-w-md z-10 max-h-full flex flex-col">
         <div className="bg-neutral-900/80 backdrop-blur-xl border border-white/10 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
           {/* Header - Fixed */}
-          <div className="pt-6 pb-4 px-8 text-center flex-shrink-0">
+          <div className="pt-6 pb-4 px-8 text-center shrink-0">
             <h1 className="text-3xl font-black text-white tracking-tighter mb-1">
               Swift<span className="text-amber-500">Ride</span>
             </h1>
-            <p className="text-neutral-400 text-xs">Welcome back! Choose your account type.</p>
+            <p className="text-neutral-400 text-xs">
+              Welcome back! Choose your account type.
+            </p>
           </div>
 
           {/* Scrollable Content Area */}
@@ -31,25 +33,29 @@ const LoginPage = () => {
               <div className="flex p-1 bg-neutral-800 rounded-2xl relative">
                 <button
                   type="button"
-                  onClick={() => setUserType('user')}
+                  onClick={() => setUserType("user")}
                   className={`flex-1 py-2.5 text-xs font-semibold rounded-xl transition-all duration-300 z-10 ${
-                    userType === 'user' ? 'text-neutral-900' : 'text-neutral-400'
+                    userType === "user"
+                      ? "text-neutral-900"
+                      : "text-neutral-400"
                   }`}
                 >
                   User Login
                 </button>
                 <button
                   type="button"
-                  onClick={() => setUserType('rider')}
+                  onClick={() => setUserType("rider")}
                   className={`flex-1 py-2.5 text-xs font-semibold rounded-xl transition-all duration-300 z-10 ${
-                    userType === 'rider' ? 'text-neutral-900' : 'text-neutral-400'
+                    userType === "rider"
+                      ? "text-neutral-900"
+                      : "text-neutral-400"
                   }`}
                 >
                   Rider Login
                 </button>
                 <div
                   className={`absolute top-1 bottom-1 w-[calc(50%-4px)] bg-amber-500 rounded-xl transition-transform duration-300 ease-out ${
-                    userType === 'user' ? 'translate-x-0' : 'translate-x-full'
+                    userType === "user" ? "translate-x-0" : "translate-x-full"
                   }`}
                 ></div>
               </div>
@@ -73,7 +79,10 @@ const LoginPage = () => {
                   <label className="text-[10px] font-bold text-neutral-500 uppercase tracking-widest">
                     Password
                   </label>
-                  <button type="button" className="text-[10px] text-amber-500 hover:text-amber-400 font-semibold uppercase tracking-wider">
+                  <button
+                    type="button"
+                    className="text-[10px] text-amber-500 hover:text-amber-400 font-semibold uppercase tracking-wider"
+                  >
                     Forgot?
                   </button>
                 </div>
@@ -84,17 +93,23 @@ const LoginPage = () => {
                 />
               </div>
 
-              <button type="button" className="w-full bg-amber-500 hover:bg-amber-400 text-neutral-950 font-bold py-3.5 rounded-xl transition-all active:scale-[0.98] mt-2 shadow-lg shadow-amber-500/20 text-sm">
-                Sign In as {userType === 'user' ? 'Passenger' : 'Captain'}
+              <button
+                type="button"
+                className="w-full bg-amber-500 hover:bg-amber-400 text-neutral-950 font-bold py-3.5 rounded-xl transition-all active:scale-[0.98] mt-2 shadow-lg shadow-amber-500/20 text-sm"
+              >
+                Sign In as {userType === "user" ? "Passenger" : "Captain"}
               </button>
             </form>
           </div>
 
           {/* Footer - Fixed */}
-          <div className="bg-neutral-800/50 py-4 px-8 text-center border-t border-white/5 flex-shrink-0">
+          <div className="bg-neutral-800/50 py-4 px-8 text-center border-t border-white/5 shrink-0">
             <p className="text-neutral-400 text-xs">
-              Don't have an account?{' '}
-              <Link href="/signup" className="text-amber-500 hover:text-amber-400 font-bold">
+              Don&apos;t have an account?{" "}
+              <Link
+                href="/signup"
+                className="text-amber-500 hover:text-amber-400 font-bold"
+              >
                 Create account
               </Link>
             </p>
