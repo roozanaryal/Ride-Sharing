@@ -2,9 +2,30 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import { useUserLogin } from "@/hooks/useUserLogin";
+import { useCaptainLogin } from "@/hooks/useCaptainLogin";
 
 const LoginPage = () => {
   const [userType, setUserType] = useState<"user" | "rider">("user");
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const {
+    isPending: isUserPending,
+    isError: isUserError,
+    error: userError,
+  } = useUserLogin();
+  const {
+    isPending: isCaptainPending,
+    isError: isCaptainError,
+    error: captainError,
+  } = useCaptainLogin();
+
+  const isError = isUserError || isCaptainError;
+  const isPending = isCaptainPending || isCaptainPending;
+  const error = userError || captainError;
 
   return (
     <div className="h-screen bg-neutral-950 flex items-center justify-center p-4 relative overflow-hidden">
@@ -34,6 +55,7 @@ const LoginPage = () => {
                 <button
                   type="button"
                   onClick={() => setUserType("user")}
+                  disabled={isPending}
                   className={`flex-1 py-2.5 text-xs font-semibold rounded-xl transition-all duration-300 z-10 ${
                     userType === "user"
                       ? "text-neutral-900"
@@ -44,6 +66,7 @@ const LoginPage = () => {
                 </button>
                 <button
                   type="button"
+                  disabled={isPending}
                   onClick={() => setUserType("rider")}
                   className={`flex-1 py-2.5 text-xs font-semibold rounded-xl transition-all duration-300 z-10 ${
                     userType === "rider"

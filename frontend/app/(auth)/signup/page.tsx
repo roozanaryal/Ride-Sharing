@@ -1,31 +1,43 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import Link from 'next/link';
-import { useUserSignup } from '@/hooks/useUserSignup';
-import { useCaptainSignup } from '@/hooks/useCaptainSignup';
+import React, { useState } from "react";
+import Link from "next/link";
+import { useUserSignup } from "@/hooks/useUserSignup";
+import { useCaptainSignup } from "@/hooks/useCaptainSignup";
 
 const SignupPage = () => {
-  const [userType, setUserType] = useState<'user' | 'rider'>('user');
+  const [userType, setUserType] = useState<"user" | "rider">("user");
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
-    phoneNumber: '',
-    vehicleType: 'bike',
-    plate: '',
-    colour: '',
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    phoneNumber: "",
+    vehicleType: "bike",
+    plate: "",
+    colour: "",
   });
 
-  const { mutate: signupUser, isPending: isUserPending, isError: isUserError, error: userError } = useUserSignup();
-  const { mutate: signupCaptain, isPending: isCaptainPending, isError: isCaptainError, error: captainError } = useCaptainSignup();
+  const {
+    mutate: signupUser,
+    isPending: isUserPending,
+    isError: isUserError,
+    error: userError,
+  } = useUserSignup();
+  const {
+    mutate: signupCaptain,
+    isPending: isCaptainPending,
+    isError: isCaptainError,
+    error: captainError,
+  } = useCaptainSignup();
 
   const isPending = isUserPending || isCaptainPending;
   const isError = isUserError || isCaptainError;
   const error = userError || captainError;
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
@@ -39,7 +51,7 @@ const SignupPage = () => {
       lastName: formData.lastName,
     };
 
-    if (userType === 'user') {
+    if (userType === "user") {
       signupUser({
         fullname,
         email: formData.email,
@@ -55,7 +67,7 @@ const SignupPage = () => {
           plate: formData.plate,
           colour: formData.colour,
           vehicleType: formData.vehicleType,
-        }
+        },
       });
     }
   };
@@ -75,7 +87,9 @@ const SignupPage = () => {
             <h1 className="text-3xl font-black tracking-tighter mb-1">
               Swift<span className="text-amber-500">Ride</span>
             </h1>
-            <p className="text-neutral-400 text-xs">Join our platform. Sign up as a passenger or a captain.</p>
+            <p className="text-neutral-400 text-xs">
+              Join our platform. Sign up as a passenger or a captain.
+            </p>
           </div>
 
           {/* User Type Toggle - Fixed/Top of scroll */}
@@ -83,25 +97,25 @@ const SignupPage = () => {
             <div className="flex p-1 bg-neutral-800 rounded-2xl relative">
               <button
                 type="button"
-                onClick={() => setUserType('user')}
+                onClick={() => setUserType("user")}
                 className={`flex-1 py-2.5 text-xs font-semibold rounded-xl transition-all duration-300 z-10 ${
-                  userType === 'user' ? 'text-neutral-900' : 'text-neutral-400'
+                  userType === "user" ? "text-neutral-900" : "text-neutral-400"
                 }`}
               >
                 Passenger
               </button>
               <button
                 type="button"
-                onClick={() => setUserType('rider')}
+                onClick={() => setUserType("rider")}
                 className={`flex-1 py-2.5 text-xs font-semibold rounded-xl transition-all duration-300 z-10 ${
-                  userType === 'rider' ? 'text-neutral-900' : 'text-neutral-400'
+                  userType === "rider" ? "text-neutral-900" : "text-neutral-400"
                 }`}
               >
                 Captain
               </button>
               <div
                 className={`absolute top-1 bottom-1 w-[calc(50%-4px)] bg-amber-500 rounded-xl transition-transform duration-300 ease-out ${
-                  userType === 'user' ? 'translate-x-0' : 'translate-x-full'
+                  userType === "user" ? "translate-x-0" : "translate-x-full"
                 }`}
               ></div>
             </div>
@@ -157,7 +171,7 @@ const SignupPage = () => {
                 </div>
 
                 {/* Rider Only Fields */}
-                {userType === 'rider' && (
+                {userType === "rider" && (
                   <>
                     <div className="space-y-1">
                       <label className="text-[10px] font-bold text-neutral-500 uppercase tracking-widest ml-1">
@@ -177,7 +191,7 @@ const SignupPage = () => {
                       <label className="text-[10px] font-bold text-neutral-500 uppercase tracking-widest ml-1">
                         Vehicle Type
                       </label>
-                      <select 
+                      <select
                         name="vehicleType"
                         value={formData.vehicleType}
                         onChange={handleInputChange}
@@ -240,12 +254,15 @@ const SignupPage = () => {
                   {(error as any)?.response?.data?.message && (
                     <p>{(error as any).response.data.message}</p>
                   )}
-                  {(error as any)?.response?.data?.errors?.map((err: any, index: number) => (
-                    <p key={index}>• {err.msg || err.message}</p>
-                  ))}
-                  {!(error as any)?.response?.data?.message && !(error as any)?.response?.data?.errors && (
-                    <p>Something went wrong. Please try again.</p>
+                  {(error as any)?.response?.data?.errors?.map(
+                    (err: any, index: number) => (
+                      <p key={index}>• {err.msg || err.message}</p>
+                    ),
                   )}
+                  {!(error as any)?.response?.data?.message &&
+                    !(error as any)?.response?.data?.errors && (
+                      <p>Something went wrong. Please try again.</p>
+                    )}
                 </div>
               )}
 
@@ -254,7 +271,9 @@ const SignupPage = () => {
                 disabled={isPending}
                 className="w-full bg-amber-500 hover:bg-amber-400 text-neutral-950 font-bold py-3.5 rounded-xl transition-all active:scale-[0.98] mt-2 shadow-lg shadow-amber-500/20 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {isPending ? 'Creating Account...' : `Create ${userType === 'user' ? 'Passenger' : 'Captain'} Account`}
+                {isPending
+                  ? "Creating Account..."
+                  : `Create ${userType === "user" ? "Passenger" : "Captain"} Account`}
               </button>
             </form>
           </div>
@@ -262,8 +281,11 @@ const SignupPage = () => {
           {/* Footer - Fixed */}
           <div className="bg-neutral-800/50 py-4 px-8 text-center border-t border-white/5 shrink-0">
             <p className="text-neutral-400 text-xs">
-              Already have an account?{' '}
-              <Link href="/login" className="text-amber-500 hover:text-amber-400 font-bold">
+              Already have an account?{" "}
+              <Link
+                href="/login"
+                className="text-amber-500 hover:text-amber-400 font-bold"
+              >
                 Sign in
               </Link>
             </p>
