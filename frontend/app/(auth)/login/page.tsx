@@ -26,7 +26,7 @@ const LoginPage = () => {
   } = useCaptainLogin();
 
   const isError = isUserError || isCaptainError;
-  const isPending = isCaptainPending || isCaptainPending;
+  const isPending = isUserPending || isCaptainPending;
   const error = userError || captainError;
 
   const handleInputChange = (
@@ -111,6 +111,7 @@ const LoginPage = () => {
                 <input
                   type="email"
                   name="email"
+                  onChange={handleInputChange}
                   placeholder="name@example.com"
                   className="w-full bg-neutral-800 border border-neutral-700 text-white px-4 py-2.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500/50 transition-all placeholder:text-neutral-600 text-sm"
                 />
@@ -129,6 +130,7 @@ const LoginPage = () => {
                   </button>
                 </div>
                 <input
+                  onChange={handleInputChange}
                   name="password"
                   type="password"
                   placeholder="••••••••"
@@ -139,7 +141,6 @@ const LoginPage = () => {
               <button
                 type="button"
                 className="w-full bg-amber-500 hover:bg-amber-400 text-neutral-950 font-bold py-3.5 rounded-xl transition-all active:scale-[0.98] mt-2 shadow-lg shadow-amber-500/20 text-sm"
-                
               >
                 Sign In as {userType === "user" ? "Passenger" : "Captain"}
               </button>
