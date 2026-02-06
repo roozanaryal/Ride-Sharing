@@ -47,7 +47,7 @@ const SignupPage = () => {
       <div className="w-full max-w-2xl z-10 max-h-full flex flex-col">
         <div className="bg-neutral-900/80 backdrop-blur-xl border border-white/10 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[92vh]">
           {/* Header - Fixed */}
-          <div className="pt-6 pb-2 px-8 text-center text-white flex-shrink-0">
+          <div className="pt-6 pb-2 px-8 text-center text-white shrink-0">
             <h1 className="text-3xl font-black tracking-tighter mb-1">
               Swift<span className="text-amber-500">Ride</span>
             </h1>
@@ -55,7 +55,7 @@ const SignupPage = () => {
           </div>
 
           {/* User Type Toggle - Fixed/Top of scroll */}
-          <div className="px-8 py-4 w-full max-w-md mx-auto flex-shrink-0">
+          <div className="px-8 py-4 w-full max-w-md mx-auto fshrink-0">
             <div className="flex p-1 bg-neutral-800 rounded-2xl relative">
               <button
                 type="button"
@@ -211,8 +211,8 @@ const SignupPage = () => {
           </div>
 
           {/* Footer - Fixed */}
-          <div className="bg-neutral-800/50 py-4 px-8 text-center border-t border-white/5 flex-shrink-0">
-            <p className="text-neutral-400 text-xs text-white">
+          <div className="bg-neutral-800/50 py-4 px-8 text-center border-t border-white/5 shrink-0">
+            <p className="text-neutral-400 text-xs">
               Already have an account?{' '}
               <Link href="/login" className="text-amber-500 hover:text-amber-400 font-bold">
                 Sign in
