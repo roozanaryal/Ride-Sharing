@@ -13,11 +13,13 @@ const LoginPage = () => {
   });
 
   const {
+    mutate: loginUser,
     isPending: isUserPending,
     isError: isUserError,
     error: userError,
   } = useUserLogin();
   const {
+    mutate: loginCaptain,
     isPending: isCaptainPending,
     isError: isCaptainError,
     error: captainError,
@@ -26,6 +28,22 @@ const LoginPage = () => {
   const isError = isUserError || isCaptainError;
   const isPending = isCaptainPending || isCaptainPending;
   const error = userError || captainError;
+
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (userType == "user") {
+      loginUser({ email: formData.email, password: formData.password });
+    } else {
+      loginCaptain({ email: formData.email, password: formData.password });
+    }
+  };
 
   return (
     <div className="h-screen bg-neutral-950 flex items-center justify-center p-4 relative overflow-hidden">
@@ -85,13 +103,14 @@ const LoginPage = () => {
             </div>
 
             {/* Form */}
-            <form className="space-y-4">
+            <form className="space-y-4" onSubmit={handleSubmit}>
               <div className="space-y-1">
                 <label className="text-[10px] font-bold text-neutral-500 uppercase tracking-widest ml-1">
                   Email Address
                 </label>
                 <input
                   type="email"
+                  name="email"
                   placeholder="name@example.com"
                   className="w-full bg-neutral-800 border border-neutral-700 text-white px-4 py-2.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500/50 transition-all placeholder:text-neutral-600 text-sm"
                 />
@@ -110,6 +129,7 @@ const LoginPage = () => {
                   </button>
                 </div>
                 <input
+                  name="password"
                   type="password"
                   placeholder="••••••••"
                   className="w-full bg-neutral-800 border border-neutral-700 text-white px-4 py-2.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500/50 transition-all placeholder:text-neutral-600 text-sm"
@@ -119,6 +139,7 @@ const LoginPage = () => {
               <button
                 type="button"
                 className="w-full bg-amber-500 hover:bg-amber-400 text-neutral-950 font-bold py-3.5 rounded-xl transition-all active:scale-[0.98] mt-2 shadow-lg shadow-amber-500/20 text-sm"
+                
               >
                 Sign In as {userType === "user" ? "Passenger" : "Captain"}
               </button>
