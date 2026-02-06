@@ -1,7 +1,6 @@
 import apiClient from "@/api/apiClient";
 import { SignupCaptainData, SignupCaptainResponse } from "@/types/auth";
 import { useMutation } from "@tanstack/react-query";
-import { error } from "console";
 
 const captainSignup = async (
   data: SignupCaptainData,
