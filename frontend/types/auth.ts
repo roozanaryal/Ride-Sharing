@@ -18,3 +18,20 @@ export interface SignupResponse {
   };
   token: string;
 }
+
+export interface LoginData {
+  email: string;
+  password: string;
+}
+
+export interface LoginResponse {
+  user: {
+    _id: string;
+    fullname: {
+      firstName: string;
+      lastName: string;
+    };
+    email: string;
+  };
+  token: string;
+}
