@@ -6,7 +6,7 @@ import { useUserLogin } from "@/hooks/useUserLogin";
 import { useCaptainLogin } from "@/hooks/useCaptainLogin";
 import { AxiosError } from "axios";
 import { ApiError } from "@/types/auth";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 const LoginPage = () => {
   const router = useRouter();
   const [userType, setUserType] = useState<"user" | "rider">("user");
