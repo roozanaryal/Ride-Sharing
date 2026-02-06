@@ -4,6 +4,8 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { useUserLogin } from "@/hooks/useUserLogin";
 import { useCaptainLogin } from "@/hooks/useCaptainLogin";
+import { AxiosError } from "axios";
+import { ApiError } from "@/types/auth";
 
 const LoginPage = () => {
   const [userType, setUserType] = useState<"user" | "rider">("user");
@@ -28,6 +30,18 @@ const LoginPage = () => {
   const isError = isUserError || isCaptainError;
   const isPending = isUserPending || isCaptainPending;
   const error = userError || captainError;
+
+  const getErrorMessage = (err: AxiosError<ApiError> | null) => {
+    if (!err) return "Authentication failed";
+    
+    // Check for express-validator errors
+    if (err.response?.data?.errors && err.response.data.errors.length > 0) {
+      return err.response.data.errors[0].msg;
+    }
+    
+    // Check for message field
+    return err.response?.data?.message || err.message || "Authentication failed";
+  };
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
@@ -102,6 +116,16 @@ const LoginPage = () => {
               </div>
             </div>
 
+            {/* Error Message */}
+            {isError && (
+              <div className="mb-4 p-3 bg-red-500/10 border border-red-500/50 rounded-xl flex items-center gap-3 animate-in fade-in slide-in-from-top-2 duration-300">
+                <div className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></div>
+                <p className="text-red-500 text-xs font-medium">
+                  {getErrorMessage(error)}
+                </p>
+              </div>
+            )}
+
             {/* Form */}
             <form className="space-y-4" onSubmit={handleSubmit}>
               <div className="space-y-1">
@@ -111,6 +135,8 @@ const LoginPage = () => {
                 <input
                   type="email"
                   name="email"
+                  value={formData.email}
+                  required
                   onChange={handleInputChange}
                   placeholder="name@example.com"
                   className="w-full bg-neutral-800 border border-neutral-700 text-white px-4 py-2.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500/50 transition-all placeholder:text-neutral-600 text-sm"
@@ -132,6 +158,8 @@ const LoginPage = () => {
                 <input
                   onChange={handleInputChange}
                   name="password"
+                  value={formData.password}
+                  required
                   type="password"
                   placeholder="••••••••"
                   className="w-full bg-neutral-800 border border-neutral-700 text-white px-4 py-2.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500/50 transition-all placeholder:text-neutral-600 text-sm"
@@ -139,10 +167,18 @@ const LoginPage = () => {
               </div>
 
               <button
-                type="button"
-                className="w-full bg-amber-500 hover:bg-amber-400 text-neutral-950 font-bold py-3.5 rounded-xl transition-all active:scale-[0.98] mt-2 shadow-lg shadow-amber-500/20 text-sm"
+                type="submit"
+                disabled={isPending}
+                className="w-full bg-amber-500 hover:bg-amber-400 disabled:opacity-50 disabled:cursor-not-allowed text-neutral-950 font-bold py-3.5 rounded-xl transition-all active:scale-[0.98] mt-2 shadow-lg shadow-amber-500/20 text-sm flex items-center justify-center gap-2"
               >
-                Sign In as {userType === "user" ? "Passenger" : "Captain"}
+                {isPending ? (
+                  <>
+                    <div className="w-4 h-4 border-2 border-neutral-950/20 border-t-neutral-950 rounded-full animate-spin"></div>
+                    <span>Signing in...</span>
+                  </>
+                ) : (
+                  <span>Sign In as {userType === "user" ? "Passenger" : "Captain"}</span>
+                )}
               </button>
             </form>
           </div>

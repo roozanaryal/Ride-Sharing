@@ -68,3 +68,12 @@ export interface SignupCaptainResponse {
   };
   token: string;
 }
+
+export interface ApiError {
+  message?: string;
+  errors?: Array<{
+    msg: string;
+    param: string;
+    location: string;
+  }>;
+}

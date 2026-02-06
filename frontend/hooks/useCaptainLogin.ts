@@ -1,6 +1,7 @@
 import apiClient from "@/api/apiClient";
-import { LoginData, SignupCaptainResponse } from "@/types/auth";
+import { LoginData, SignupCaptainResponse, ApiError } from "@/types/auth";
 import { useMutation } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 
 const loginCaptain = async (
   data: LoginData,
@@ -13,7 +14,7 @@ const loginCaptain = async (
 };
 
 export const useCaptainLogin = () => {
-  return useMutation({
+  return useMutation<SignupCaptainResponse, AxiosError<ApiError>, LoginData>({
     mutationFn: loginCaptain,
     onSuccess: (data) => {
       localStorage.setItem("token", data.token);
