@@ -6,8 +6,9 @@ import { useUserLogin } from "@/hooks/useUserLogin";
 import { useCaptainLogin } from "@/hooks/useCaptainLogin";
 import { AxiosError } from "axios";
 import { ApiError } from "@/types/auth";
-
+import { useRouter } from "next/router";
 const LoginPage = () => {
+  const router = useRouter();
   const [userType, setUserType] = useState<"user" | "rider">("user");
   const [formData, setFormData] = useState({
     email: "",
@@ -33,14 +34,16 @@ const LoginPage = () => {
 
   const getErrorMessage = (err: AxiosError<ApiError> | null) => {
     if (!err) return "Authentication failed";
-    
+
     // Check for express-validator errors
     if (err.response?.data?.errors && err.response.data.errors.length > 0) {
       return err.response.data.errors[0].msg;
     }
-    
+
     // Check for message field
-    return err.response?.data?.message || err.message || "Authentication failed";
+    return (
+      err.response?.data?.message || err.message || "Authentication failed"
+    );
   };
 
   const handleInputChange = (
@@ -57,6 +60,7 @@ const LoginPage = () => {
     } else {
       loginCaptain({ email: formData.email, password: formData.password });
     }
+    router.push("/");
   };
 
   return (
@@ -177,7 +181,9 @@ const LoginPage = () => {
                     <span>Signing in...</span>
                   </>
                 ) : (
-                  <span>Sign In as {userType === "user" ? "Passenger" : "Captain"}</span>
+                  <span>
+                    Sign In as {userType === "user" ? "Passenger" : "Captain"}
+                  </span>
                 )}
               </button>
             </form>
