@@ -1,3 +1,27 @@
+export interface User {
+  _id: string;
+  fullname: {
+    firstName: string;
+    lastName?: string;
+  };
+  email: string;
+}
+
+export interface Captain {
+  _id: string;
+  fullname: {
+    firstName: string;
+    lastName?: string;
+  };
+  email: string;
+  phoneNumber: string;
+  vehicle: {
+    plate: string;
+    colour: string;
+    vehicleType: string;
+  };
+}
+
 export interface SignupData {
   fullname: {
     firstName: string;
@@ -8,14 +32,7 @@ export interface SignupData {
 }
 
 export interface SignupResponse {
-  user: {
-    _id: string;
-    fullname: {
-      firstName: string;
-      lastName?: string;
-    };
-    email: string;
-  };
+  user: User;
   token: string;
 }
 
@@ -25,14 +42,7 @@ export interface LoginData {
 }
 
 export interface LoginResponse {
-  user: {
-    _id: string;
-    fullname: {
-      firstName: string;
-      lastName?: string;
-    };
-    email: string;
-  };
+  user: User;
   token: string;
 }
 
@@ -52,20 +62,7 @@ export interface SignupCaptainData {
 }
 
 export interface SignupCaptainResponse {
-  captain: {
-    _id: string;
-    fullname: {
-      firstName: string;
-      lastName?: string;
-    };
-    email: string;
-    phoneNumber: string;
-    vehicle: {
-      plate: string;
-      colour: string;
-      vehicleType: string;
-    };
-  };
+  captain: Captain;
   token: string;
 }
 
@@ -77,3 +74,4 @@ export interface ApiError {
     location: string;
   }>;
 }
+

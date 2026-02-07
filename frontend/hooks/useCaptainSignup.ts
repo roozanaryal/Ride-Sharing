@@ -2,6 +2,8 @@ import apiClient from "@/api/apiClient";
 import { SignupCaptainData, SignupCaptainResponse } from "@/types/auth";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
+import { useUser } from "@/context/UserContext";
+
 const captainSignup = async (
   data: SignupCaptainData,
 ): Promise<SignupCaptainResponse> => {
@@ -14,10 +16,13 @@ const captainSignup = async (
 
 export const useCaptainSignup = () => {
   const router = useRouter();
+  const { setUser } = useUser();
+
   return useMutation({
     mutationFn: captainSignup,
     onSuccess: (data) => {
       localStorage.setItem("token", data.token);
+      setUser(data.captain);
       router.push("/");
     },
     onError: (error) => {
