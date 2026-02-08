@@ -14,6 +14,8 @@ const page = () => {
       <LogoHeader />
 
       <CaptainBottomPannel />
+    
+
     </div>
   );
 };
