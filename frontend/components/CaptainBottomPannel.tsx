@@ -1,17 +1,20 @@
 interface captainProps {
   onClose: () => void;
-  isOpen:boolean;
+  isOpen: boolean;
 }
 
-const CaptainBottomPannel = ({ onClose,isOpen }: captainProps) => {
+const CaptainBottomPannel = ({ onClose, isOpen }: captainProps) => {
   return (
     <>
-      <div className={`fixed bottom-0 left-0 w-full h-[50%] lg:h-[35%] bg-white shadow-2xl px-6 py-5 z-50 
+      <div
+        className={`fixed bottom-0 left-0 w-full h-[50%] lg:h-[35%] bg-white shadow-2xl px-6 py-5 z-50 
         transition-transform duration-500 ease-in-out transform 
-        ${isOpen ? "translate-y-0" : "translate-y-full"}`}>
+        ${isOpen ? "translate-y-0" : "translate-y-full"}`}
+      >
         {/* Close Button */}
-        <button className="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-xl font-bold"
-        onClick={onClose}
+        <button
+          className="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-xl font-bold"
+          onClick={onClose}
         >
           ✕
         </button>
@@ -33,7 +36,10 @@ const CaptainBottomPannel = ({ onClose,isOpen }: captainProps) => {
             <strong className="text-lg text-green-600">Rs 200</strong>
           </div>
 
-          <button className="w-full py-3 bg-green-500 hover:bg-green-600 transition-all text-white font-semibold rounded-2xl shadow-md">
+          <button
+            className="w-full py-3 bg-green-500 hover:bg-green-600 transition-all text-white font-semibold rounded-2xl shadow-md"
+            // onClick={setRideAcceptance(true)}
+          >
             Accept Ride
           </button>
         </div>

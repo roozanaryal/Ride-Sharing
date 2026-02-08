@@ -4,7 +4,7 @@ import LogoHeader from "@/components/LogoHeader";
 import MapBackground from "@/components/MapBackground";
 import { useState } from "react";
 
-const Page = () => {
+const CaptainPage = () => {
   const [showAcceptRidePanel, setShowAcceptRidePanel] = useState<boolean>(true);
 
   return (
@@ -12,7 +12,10 @@ const Page = () => {
       <MapBackground />
       <LogoHeader />
       {showAcceptRidePanel ? (
-        <CaptainBottomPannel onClose={()=>setShowAcceptRidePanel(false)} />
+        <CaptainBottomPannel
+          isOpen={showAcceptRidePanel}
+          onClose={() => setShowAcceptRidePanel(false)}
+        />
       ) : (
         <div className="text-center ...">Today&apos;s Earning : Rs 5000</div>
       )}
@@ -20,4 +23,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default CaptainPage;
