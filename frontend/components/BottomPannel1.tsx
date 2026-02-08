@@ -8,12 +8,12 @@ interface BottomPannel1Props {
   onFindTrip: () => void;
 }
 
-const BottomPannel1 = ({ 
-  pickup, 
-  setPickup, 
-  destination, 
-  setDestination, 
-  onFindTrip 
+const BottomPannel1 = ({
+  pickup,
+  setPickup,
+  destination,
+  setDestination,
+  onFindTrip,
 }: BottomPannel1Props) => {
   const suggestions = [
     { id: 1, name: "Vikas Nagar, Sector 10, Lucknow", icon: "📍" },
@@ -29,7 +29,7 @@ const BottomPannel1 = ({
   return (
     <div
       ref={panelRef}
-      className={`fixed bottom-0 left-0 right-0 bg-white rounded-t-[32px] shadow-[0_-8px_30px_rgb(0,0,0,0.12)] transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] z-20 ${
+      className={`fixed bottom-0 left-0 right-0 bg-white rounded-t-4xl shadow-[0_-8px_30px_rgb(0,0,0,0.12)] transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] z-20 ${
         isPanelOpen ? "h-[85%]" : "h-auto pb-8 pt-6"
       }`}
     >
@@ -110,14 +110,14 @@ const BottomPannel1 = ({
         <div
           className={`mt-8 space-y-2 transition-all duration-500 overflow-hidden ${
             isPanelOpen
-              ? "opacity-100 translate-y-0 max-h-[500px]"
+              ? "opacity-100 translate-y-0 max-h-125"
               : "opacity-0 translate-y-4 max-h-0"
           }`}
         >
           <p className="text-sm font-semibold text-gray-500 uppercase tracking-wider px-2 mb-4">
             Recent Destinations
           </p>
-          <div className="overflow-y-auto max-h-[300px] custom-scrollbar">
+          <div className="overflow-y-auto max-h-75 custom-scrollbar">
             {suggestions.map((suggestion) => (
               <button
                 key={suggestion.id}
