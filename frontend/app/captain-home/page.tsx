@@ -17,7 +17,25 @@ const CaptainPage = () => {
           onClose={() => setShowAcceptRidePanel(false)}
         />
       ) : (
-        <div className="text-center ...">Today&apos;s Earning : Rs 5000</div>
+        <div
+          className="absolute bottom-4 left-1/2 -translate-x-1/2 
+                bg-white text-black px-6 py-4 
+                rounded-2xl shadow-lg 
+                w-[90%] max-w-md
+                flex items-center justify-between"
+        >
+          <div>
+            <p className="text-sm text-gray-500">Today&apos;s Earnings</p>
+            <p className="text-2xl font-bold text-green-600">Rs 5,000</p>
+          </div>
+
+          <div
+            className="bg-green-100 text-green-700 
+                  px-3 py-1 rounded-full text-sm font-semibold"
+          >
+            + Today
+          </div>
+        </div>
       )}
     </div>
   );
