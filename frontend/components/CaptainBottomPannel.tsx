@@ -1,9 +1,18 @@
-const CaptainBottomPannel = () => {
+interface captainProps {
+  onClose: () => void;
+  isOpen:boolean;
+}
+
+const CaptainBottomPannel = ({ onClose,isOpen }: captainProps) => {
   return (
     <>
-      <div className="absolute bottom-0 w-full h-[50%] lg:h-[35%] bg-white shadow-2xl px-6 py-5">
+      <div className={`fixed bottom-0 left-0 w-full h-[50%] lg:h-[35%] bg-white shadow-2xl px-6 py-5 z-50 
+        transition-transform duration-500 ease-in-out transform 
+        ${isOpen ? "translate-y-0" : "translate-y-full"}`}>
         {/* Close Button */}
-        <button className="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-xl font-bold">
+        <button className="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-xl font-bold"
+        onClick={onClose}
+        >
           ✕
         </button>
 
@@ -41,10 +50,6 @@ const CaptainBottomPannel = () => {
           </div>
         </div>
       </div>
-      {/* 
-      <div className="text-center text-gray-700 font-semibold absolute bottom-0 bg-white px-5 py-6 w-full h-[10%]">
-        Today&apos;s Earning : Rs 5000
-      </div> */}
     </>
   );
 };

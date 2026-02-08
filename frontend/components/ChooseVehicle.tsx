@@ -47,7 +47,7 @@ interface ChooseVehicleProps {
 
 const ChooseVehicle = ({ onVehicleSelect, onBack, setChooseVehicle }: ChooseVehicleProps) => {
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-white rounded-t-[32px] shadow-[0_-8px_30px_rgb(0,0,0,0.12)] z-30 animate-in slide-in-from-bottom duration-500 ease-out">
+    <div className="fixed bottom-0 left-0 right-0 bg-white rounded-t-4xl shadow-[0_-8px_30px_rgb(0,0,0,0.12)] z-30 animate-in slide-in-from-bottom duration-500 ease-out">
       <div className="max-w-xl mx-auto px-6 py-6">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
