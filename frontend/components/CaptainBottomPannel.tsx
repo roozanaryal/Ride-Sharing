@@ -42,7 +42,7 @@ const CaptainBottomPannel = () => {
         </div>
       </div>
       {/* 
-      <div className="text-center text-gray-700 font-semibold">
+      <div className="text-center text-gray-700 font-semibold absolute bottom-0 bg-white px-5 py-6 w-full h-[10%]">
         Today&apos;s Earning : Rs 5000
       </div> */}
     </>
