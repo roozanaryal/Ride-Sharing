@@ -18,7 +18,7 @@ const CaptainPage = () => {
       <LogoHeader />
 
       {rideAcceptedPullBar && (
-        <div className="absolute bottom-[14%] left-1/2 -translate-x-1/2 z-50">
+        <div className="absolute bottom-[14%] lg:bottom-[16%] left-1/2 -translate-x-1/2 z-50">
           <div className="w-20 lg:w-52 h-1.5 bg-gray-300 rounded-full shadow-sm" onClick={()=>setRideAcceptancePannel(true)}></div>
         </div>
       )}
